@@ -15,7 +15,7 @@ jobs:
     - name: Checkout pratice-ci-cd-web web
       uses: actions/checkout@v3
       with:
-        repository: https://github.com/lovefreeUnity/practice-ci-cd-web.git
+        repository: lovefreeUnity/practice-ci-cd-web
         ref: main
 
     - name: Set up Node.js
@@ -35,7 +35,7 @@ jobs:
     - name: Checkout Test Code for pratice-ci-cd-web
       uses: actions/checkout@v3
       with:
-        repository: https://github.com/lovefreeUnity/-Test-practice-ci-cd-web.git
+        repository: lovefreeUnity/-Test-practice-ci-cd-web
         path: test-code
 
     - name: Set up Python
