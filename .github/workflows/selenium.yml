@@ -18,10 +18,10 @@ jobs:
           repository: lovefreeUnity/practice-ci-cd-web
           ref: main
       
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16  # Node.js 버전을 설정
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16  # Node.js 버전을 설정
           
       - name: Install Google Chrome
         run: |
@@ -32,39 +32,54 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
-      # - name: Set up ChromeDriver
-      #   uses: actions/setup-chromedriver@v2
-      #   with:
-      #     version: 'latest'
+      - name: Install ChromeDriver
+        run: |
+          # Chrome 버전 확인
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+
+          # Major 버전 추출
+          CHROME_MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d '.' -f 1)
+          
+          # Chromedriver 버전 확인 및 다운로드
+          CHROMEDRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION")
+          wget -N "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+
+          # Chromedriver 압축 해제 및 설치
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          rm chromedriver_linux64.zip
+
+          # 설치 확인
+          chromedriver --version
 
       - name: Debug Chrome and ChromeDriver
         run: |
           google-chrome --version
-        # chromedriver --version
-      # - name: Install Dependencies for practice-ci-cd-web
-      #   run: npm install
+          chromedriver --version
+      - name: Install Dependencies for practice-ci-cd-web
+        run: npm install
 
-      # - name: Start Test Web
-      #   run: npm run dev &
-      #   env:
-      #     HOST: 127.0.0.1
-      #     PORT: 8080  # 앱이 실행될 포트 (설정 필요)
+      - name: Start Test Web
+        run: npm run dev &
+        env:
+          HOST: 127.0.0.1
+          PORT: 8080  # 앱이 실행될 포트 (설정 필요)
 
-      # - name: Checkout Test Code for practice-ci-cd-web
-      #   uses: actions/checkout@v3
-      #   with:
-      #     repository: lovefreeUnity/-Test-practice-ci-cd-web
-      #     path: test-code
+      - name: Checkout Test Code for practice-ci-cd-web
+        uses: actions/checkout@v3
+        with:
+          repository: lovefreeUnity/-Test-practice-ci-cd-web
+          path: test-code
 
-      # - name: Set up Python
-      #   uses: actions/setup-python@v4
-      #   with:
-      #     python-version: 3.13  # Python 버전 설정
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13  # Python 버전 설정
 
-      # - name: Install Dependencies for Test Code
-      #   run: |
-      #     python -m pip install --upgrade pip
-      #     pip install -r test-code/requirements.txt
+      - name: Install Dependencies for Test Code
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r test-code/requirements.txt
 
-      # - name: Run Tests for practice-ci-cd-web
-      #   run: python test-code/testcode.py  # 테스트 실행 명령
+      - name: Run Tests for practice-ci-cd-web
+        run: python test-code/testcode.py  # 테스트 실행 명령
