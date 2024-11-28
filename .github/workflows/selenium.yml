@@ -32,25 +32,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
-      - name: Install ChromeDriver
+      - name: Install Google Chrome Driver
         run: |
-          # Chrome 버전 확인
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-
-          # Major 버전 추출
-          CHROME_MAJOR_VERSION=$(echo $CHROME_VERSION | cut -d '.' -f 1)
-          
-          # Chromedriver 버전 확인 및 다운로드
-          CHROMEDRIVER_VERSION=$(wget -qO- "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR_VERSION")
-          wget -N "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
-
-          # Chromedriver 압축 해제 및 설치
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
-          rm chromedriver_linux64.zip
-
-          # 설치 확인
-          chromedriver --version
+          npm install chromedriver
 
       - name: Debug Chrome and ChromeDriver
         run: |
