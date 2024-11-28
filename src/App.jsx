@@ -16,11 +16,12 @@ function App() {
       <RoundButton 
         buttonText = '인사 말 바꾸기'
         onClick = {()=>{
-          if(title === 'Wellcom to my app') {
-            newTitle('Hellow Love Free Unity')
-          }else {
-            newTitle('Wellcom to my app')
-          }
+          //테스트 코드 에러 발생
+          // if(title === 'Wellcom to my app') {
+          //   newTitle('Hellow Love Free Unity')
+          // }else {
+          //   newTitle('Wellcom to my app')
+          // }
         }}
       />
       </div>
