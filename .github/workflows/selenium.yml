@@ -1,0 +1,52 @@
+name: Run Tests for practice-ci-cd-web
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  test-app:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. clone pratice-ci-cd-web web
+    - name: Checkout pratice-ci-cd-web web
+      uses: actions/checkout@v3
+      with:
+        repository: https://github.com/lovefreeUnity/practice-ci-cd-web.git
+        ref: main
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16  # Node.js 버전을 설정
+
+    - name: Install Dependencies for pratice-ci-cd-web
+      run: npm install
+
+    - name: Start Test Web
+      run: npm run dev &
+      env:
+        HOST: 127.0.0.1
+        PORT: 8080  # 앱이 실행될 포트 (설정 필요)
+
+    - name: Checkout Test Code for pratice-ci-cd-web
+      uses: actions/checkout@v3
+      with:
+        repository: https://github.com/lovefreeUnity/-Test-practice-ci-cd-web.git
+        path: test-code
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.13  # Python 버전 설정
+
+    - name: Install Dependencies for Test Code
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r test-code/requirements.txt
+
+    - name: Run Tests for App A
+      run: python test-code/run_tests.py  # 테스트 실행 명령
