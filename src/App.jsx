@@ -9,10 +9,10 @@ function App() {
   return (
     <div className='App'>
       <h1 className="bg-black font-bold">{title}</h1>
+      <br/>
       <div style={
         {display: "grid",placeItems: "center"}
       }>
-      <br/>
       <RoundButton 
         buttonText = '인사 말 바꾸기'
         onClick = {()=>{
