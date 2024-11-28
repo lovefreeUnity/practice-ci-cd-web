@@ -48,5 +48,5 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r test-code/requirements.txt
 
-    - name: Run Tests for App A
-      run: python test-code/run_tests.py  # 테스트 실행 명령
+    - name: Run Tests forpratice-ci-cd-web
+      run: python test-code/testcode.py  # 테스트 실행 명령
